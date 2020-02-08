@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>Checkout</h2>
+
+<div class="row align-items-center">
+    <div class="col-sm  border border-secondary p-2  ">
+        <h5>Order Summary:</h5>
+        {% for item in items %}
+        <ul>item: <strong>{{ item.item }}</strong></ul>
+        <ul>Quntity: <strong>{{item.qty}} </strong></ul>
+
+        <hr>
+
+        {% endfor %}
+        <div class="container"> 
+       <p class="text-primary"> total items: {{count}}</p> 
+       <p> Total price: {{total_price}} </p> </div>
+    </div>
+    <div class="col-sm border ml-2 p-3 ">
+        {% if customer %}
+        <h4>please confirm your order:</h4>
+        Shipping Address : {{customer.address}} <br>
+        Phone Number: {{customer.phone}}
+        <!-- Get email -->
+        <form action="{% url 'check_out' %}" method="POST">
+            {% csrf_token %}
+        <input  class="btn  btn-success" type="submit" value="Confirm Order">
+        </form>
+        <br>
+        <p>
+            <button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              Change Shipping Details
+            </button>
+          </p>
+          <div class="collapse" id="collapseExample">
+            <div class="card card-body">
+                <form action="{% url 'customer_details' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="phone">Shipping Address</label>
+                        <input type="text" class="form-control"  name="address"  value="{{customer.address}}">
+                        <small class="form-text text-muted"></small>
+                     </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" class="form-control" value="{{customer.phone}}"  name="phone" pattern="[0-9]{11}">
+                    <small class="form-text text-muted">Format: 01234567899</small> 
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success">Update</button>
+                </form>
+            </div>
+          </div>
+          {% else %}
+          Add your shipping data 
+          <form action="{% url 'customer_details' %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" class="form-control" placeholder="phone number"  name="phone" pattern="[0-9]{11}" required>
+            <small class="form-text text-muted">Format: 01234567899</small> </div>
+            <div class="form-group">
+                <label for="phone">Shipping Address</label>
+                <input type="text" class="form-control"  name="address"  placeholder="Address" required>
+                <small class="form-text text-muted"></small> </div>
+            <button type="submit" class="btn btn-success">Save</button>
+        </form>
+          {% endif %}
+    </div>
+</div>
+</div>
+{% endblock %}

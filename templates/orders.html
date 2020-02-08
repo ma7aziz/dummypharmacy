@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+ <h3>Orders</h3>
+
+{% for order in orders %}
+<div class="row">
+    <div class="col card">
+
+
+        <p class="text-primary card-header"> order id: <strong>{{order.id}}</strong> </p> <br>
+        order date: {{order.order_date}}
+        
+        <br>Price: {{order.total_price}} <br>
+        <div class="card-header container">
+            {% for item in order.cart.all %}
+            {{item.item}} |
+            {{item.qty}} Box <br>
+            {%endfor%} 
+        </div>
+        <br> Customer:{{order.customer}} <br>
+        Address: {{order.customer.address}} <br>
+        phone: {{order.customer.phone}}
+    </div>
+</div>
+<br>
+
+{% endfor %}
+</div>
+{% endblock %}

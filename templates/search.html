@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{%block content%}
+<div class="container">
+  {% if items %}
+  {% if count  == 1 %}
+  {{count }} item was found: <br>
+  {% else %} {{count }} items were found: <br>
+  {% endif %}
+  {%for item in items%}
+  Search Results: <br>
+  <img src="{{item.image.url}}" alt="" width="100px" height="100px">
+  <h4>{{item.name}}</h4>
+  price: {{item.price}}
+
+  <form action="{% url 'add_to_cart' %}" method="POST">
+    <input type="submit" value="Add To Cart" id="" class="btn btn-success">
+    {%csrf_token %}
+    <input type="hidden" name="item_id" value="{{item.id }}">
+    <input type="hidden" name="user_id" value="{{user.id}}">
+    <input type="hidden" name="price" value="{{item.price}}">
+    <input type="hidden" name="item" value="{{item.name}}">
+  </form>
+  {%endfor%} {% endif %}
+
+</div>
+{%endblock%}
