@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 
 
-from cart.models import Order
+from cart.models import Order, Customr_details
 from items.models import Item,CATEGORY_CHOICES
 
 
@@ -14,7 +14,7 @@ from items.models import Item,CATEGORY_CHOICES
 
 
 def index(request):
-    print(request.session.keys())
+    
     items = Item.objects.all().order_by('-price')
     recent = Item.objects.all().order_by('-created')[:5]
     top_selling = Item.objects.all().order_by('-times_sold')[:5]
@@ -45,18 +45,17 @@ def signup(request):
     return render(request, "registration/signup.html", {"form": form})
 
 
-def profile(request):
-    # Add details and order history
-    return render(request, 'profile.html')
+
 
 
 @user_passes_test(lambda u: u.is_superuser)
 def orders(request):
     orders = Order.objects.all().order_by('-order_date')
+
+
     return render(request, 'orders.html', {'orders': orders})
 
 
 def category(request, category):
-
     items = Item.objects.all().filter(category=category)
     return render(request, 'category.html', {'items':items, 'category':category, 'categories': CATEGORY_CHOICES})

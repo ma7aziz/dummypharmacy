@@ -22,30 +22,23 @@ def cart(request):
     }
     request.session['prices'] = prices
     return render(request, 'cart.html', context)
-
+    
+@login_required
 def add_to_cart(request):
-  
+    prin(request.POST['item_id'])
     item = Item.objects.get(pk=request.POST['item_id'])
-    if request.user.is_authenticated:
-        cart = Cart.objects.filter(
-            user=request.user, item=item, is_ordered=False).first()
-        print(cart)
-        if cart:
-            print(cart.qty)
-            cart.qty += 1
-            cart.save()
-            messages.success(request, 'item added to cart!')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        else:
-            cart = Cart(user=request.user, item=item)
-            cart.save()
-            messages.success(request, 'item added to cart!')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    else:
-        cart = Cart(item=item)
+    cart = Cart.objects.filter(
+    user=request.user, item=item, is_ordered=False).first()
+    if cart:
+        cart.qty += 1
         cart.save()
         messages.success(request, 'item added to cart!')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    else:
+        cart = Cart(user=request.user, item=item)
+        cart.save()
+        messages.success(request, 'item added to cart!')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 
@@ -65,7 +58,7 @@ def remove_item(request):
     messages.success(request, 'cart updated')
     return (redirect('cart'))
 
-@login_required
+
 def check_out(request):
     cart_items = Cart.objects.all().filter(
         user_id=request.user.id, is_ordered=False)
