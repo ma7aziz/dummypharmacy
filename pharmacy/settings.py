@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import dj_database_url
+import dropbox
 
 from decouple import config
 # import dj_database_url
@@ -137,12 +138,12 @@ STATICFILES_DIRS =[ os.path.join(BASE_DIR, 'pharmacy/static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
 DROPBOX_OAUTH2_TOKEN = 'R1smPc5AdO0AAAAAAAAWvLRsIuGUaQ4e5TAdAmSYD8CmkcXgpTHh8YpzWkHvC9oU'
 DROPBOX_ROOT_PATH = 'dummypharmacy'
 
-
+dbx = dropbox.Dropbox('R1smPc5AdO0AAAAAAAAWvLRsIuGUaQ4e5TAdAmSYD8CmkcXgpTHh8YpzWkHvC9oU')
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
