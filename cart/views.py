@@ -86,18 +86,18 @@ def check_out(request):
             item = Item.objects.get(pk=cart.item_id)
             item.times_sold += cart.qty 
             item.save()
-        send_mail('Order Confirmation',
-                  'Your order has been confirmed successfully \n Thanks for shopping with us',
-                  settings.EMAIL_HOST_USER,
-                  [user.email])
-        mail_admins(
-            subject='New Order !',
-            message='We have recieved new order',
-            fail_silently=False,
-            connection=None,
-            html_message=f'we recieved new order please check your admin pannel',
-        )
-        messages.success(request, 'Your order has been confirmed')
+        # send_mail('Order Confirmation',
+        #           'Your order has been confirmed successfully \n Thanks for shopping with us',
+        #           settings.EMAIL_HOST_USER,
+        #           [user.email])
+        # mail_admins(
+        #     subject='New Order !',
+        #     message='We have recieved new order',
+        #     fail_silently=False,
+        #     connection=None,
+        #     html_message=f'we recieved new order please check your admin pannel',
+        # )
+        # messages.success(request, 'Your order has been confirmed')
         return redirect('index')
 
     else:
