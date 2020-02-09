@@ -26,12 +26,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '#n@q)liw2^7i!c37w)#j!ao@gimr%gbov0mb71lvp$xe=^^(sp'
 
+DATABASES = {
+        'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
+        }
+    }
 # SECURITY WARNING: don't run with debug turned on in production!
 
 ALLOWED_HOSTS = ['*']
 DEBUG = False
 
-if DEBUG == False:
+if DEBUG == False :
     DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL') )
@@ -43,12 +49,7 @@ if DEBUG == False:
     DROPBOX_ROOT_PATH = 'dummypharmacy'
     dbx = dropbox.Dropbox(DROPBOX_OAUTH2_TOKEN)
 
-DATABASES = {
-        'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
-        }
-    }
+
 
 
 # Application definition
