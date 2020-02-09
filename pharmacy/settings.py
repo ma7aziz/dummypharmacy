@@ -24,14 +24,31 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
-# SECRET_KEY = config('SECRET_KEY')
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = '#n@q)liw2^7i!c37w)#j!ao@gimr%gbov0mb71lvp$xe=^^(sp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = ['*']
+DEBUG = True
+
+if DEBUG == False:
+    DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL') )
+    }
+
+    SECRET_KEY = config('SECRET_KEY')
+    DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
+    DROPBOX_OAUTH2_TOKEN = config('DROPBOX_TOKEN')
+    DROPBOX_ROOT_PATH = 'dummypharmacy'
+    dbx = dropbox.Dropbox(DROPBOX_OAUTH2_TOKEN)
+
+DATABASES = {
+        'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
+        }
+    }
 
 
 # Application definition
@@ -88,15 +105,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'pharmacy.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL') )
-}
-# Password validation
-# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -138,12 +146,7 @@ STATICFILES_DIRS =[ os.path.join(BASE_DIR, 'pharmacy/static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
-DROPBOX_OAUTH2_TOKEN = config('DROPBOX_TOKEN')
-DROPBOX_ROOT_PATH = 'dummypharmacy'
 
-dbx = dropbox.Dropbox(DROPBOX_OAUTH2_TOKEN)
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
