@@ -88,10 +88,14 @@ WSGI_APPLICATION = 'pharmacy.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
+ATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd2kv18unvq51ov',
+        'USER': 'rpudzacrfwikeh',
+        'PASSWORD': 'db97aa29653fc880462818a5a7f91793d20528ca7c231caef953dfb4e54ba298',
+        'HOST': 'ec2-3-213-192-58.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 # Password validation
