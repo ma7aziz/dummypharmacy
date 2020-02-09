@@ -29,7 +29,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
@@ -140,10 +140,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
-DROPBOX_OAUTH2_TOKEN = 'R1smPc5AdO0AAAAAAAAWvLRsIuGUaQ4e5TAdAmSYD8CmkcXgpTHh8YpzWkHvC9oU'
+DROPBOX_OAUTH2_TOKEN = config('DROPBOX_TOKEN')
 DROPBOX_ROOT_PATH = 'dummypharmacy'
 
-dbx = dropbox.Dropbox('R1smPc5AdO0AAAAAAAAWvLRsIuGUaQ4e5TAdAmSYD8CmkcXgpTHh8YpzWkHvC9oU')
+dbx = dropbox.Dropbox(DROPBOX_OAUTH2_TOKEN)
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
