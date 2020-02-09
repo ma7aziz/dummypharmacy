@@ -97,7 +97,7 @@ def check_out(request):
         #     connection=None,
         #     html_message=f'we recieved new order please check your admin pannel',
         # )
-        # messages.success(request, 'Your order has been confirmed')
+        messages.success(request, 'Your order has been confirmed')
         return redirect('index')
 
     else:
