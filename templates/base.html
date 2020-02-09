@@ -21,17 +21,16 @@
             <a class="navbar-brand text-light " href="{% url 'index' %}">Online Pharmacy</a>
          
                 <ul class="nav mr-auto">
-                    {% if user.is_authenticated %}
                     <li class="nav-item font-italic"><a class="nav-link" href="{% url 'cart' %}">Cart</a></li>
+                    {% if user.is_authenticated %}
                     <li class="nav-item font-italic"><a class="nav-link" href="{% url 'profile' %}">Profile({{user.username}})</a></li>
                     <li class="nav-item font-italic"><a class="nav-link" href="{% url 'logout'%}">Logout</a></li>
                         {% if user.is_superuser%}
                         <li class="nav-item font-italic"><a class="nav-link" href="{% url 'orders'%}">Orders</a></li>
-
                         {% endif%}
                     {% else %}
-                    <li class="nav-item font-italic"><a href="{% url 'signup'%}">Sign up</a></li>
-                    <li class="nav-item font-italic"><a href="{% url 'login'%}">Log in</a> </li>
+                    <li class="nav-item font-italic"><a class="nav-link" href="{% url 'signup'%}">Sign up</a></li>
+                    <li class="nav-item font-italic"><a class="nav-link" href="{% url 'login'%}">Log in</a> </li>
 
                     {% endif %}
 

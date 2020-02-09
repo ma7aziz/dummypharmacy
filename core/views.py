@@ -14,10 +14,11 @@ from items.models import Item,CATEGORY_CHOICES
 
 
 def index(request):
+    print(request.session.keys())
     items = Item.objects.all().order_by('-price')
     recent = Item.objects.all().order_by('-created')[:5]
     top_selling = Item.objects.all().order_by('-times_sold')[:5]
-    
+
     context = {
         'items': items,
         'recent': recent,

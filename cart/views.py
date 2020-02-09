@@ -8,52 +8,50 @@ from django.shortcuts import redirect, render
 from items.models import Item
 from .models import Cart, Customr_details, Order
 
-
-@login_required
-def add_to_cart(request):
-    if request.method == 'POST':
-        item_id = request.POST['item_id']
-        user_id = request.POST['user_id']
-        item = request.POST['item']
-        price = request.POST['price']
-        # check if item already in cart
-        in_cart = Cart.objects.all().filter(
-            user_id=user_id, item_id=item_id, is_ordered=False)
-        if in_cart:
-            item = Cart.objects.get(
-                item_id=item_id, user_id=user_id, is_ordered=False)
-            item.qty += 1
-            item.save()
-            messages.success(request, 'item added to cart!')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        else:
-            cart_item = Cart(item_id=item_id, user_id=user_id,
-                             item=item, price=price)
-            cart_item.save()
-            messages.success(request, 'item added to cart!')
-    # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    return redirect('index')
-
-
 def cart(request):
     user_id = request.user.id
     cart_items = Cart.objects.all().filter(user_id=user_id, is_ordered=False)
+    # get total prices
     prices = []
-
     for item in cart_items:
-        prices.append(item.price * item.qty)
-
+        prices.append(item.item.price * item.qty)
+    total_price = sum(prices)
     context = {
         'items': cart_items,
-        'total_price': sum(prices)
+        'total_price': total_price
     }
     request.session['prices'] = prices
     return render(request, 'cart.html', context)
 
+def add_to_cart(request):
+  
+    item = Item.objects.get(pk=request.POST['item_id'])
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(
+            user=request.user, item=item, is_ordered=False).first()
+        print(cart)
+        if cart:
+            print(cart.qty)
+            cart.qty += 1
+            cart.save()
+            messages.success(request, 'item added to cart!')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            cart = Cart(user=request.user, item=item)
+            cart.save()
+            messages.success(request, 'item added to cart!')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    else:
+        cart = Cart(item=item)
+        cart.save()
+        messages.success(request, 'item added to cart!')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+
 
 def remove_item(request):
     if request.method == 'POST':
-
         item_id = request.POST['item_id']
         user_id = request.POST['user_id']
         quantity = request.POST['quantity']
@@ -67,7 +65,7 @@ def remove_item(request):
     messages.success(request, 'cart updated')
     return (redirect('cart'))
 
-
+@login_required
 def check_out(request):
     cart_items = Cart.objects.all().filter(
         user_id=request.user.id, is_ordered=False)
@@ -84,7 +82,7 @@ def check_out(request):
             cart.save()
             order.cart.add(cart)
             item = Item.objects.get(pk=cart.item_id)
-            item.times_sold += cart.qty 
+            item.times_sold += cart.qty
             item.save()
         # send_mail('Order Confirmation',
         #           'Your order has been confirmed successfully \n Thanks for shopping with us',
