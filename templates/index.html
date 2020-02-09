@@ -21,7 +21,7 @@
       <div class="col-sm-6 col-md-4 col-lg-3 mb-2">
       <div class="card h-100 ">
         <div class="card-body">
-          <img src="{{item.image.url}}" class="card-img-top img-fluid " alt="" height="150px">
+          <img src="{{item.image.url}}" class="card-img-top img-fluid " alt="" height="100px">
           <div class="card-text">
             <a href="{% url 'item_details' item.id%}">
               <p class="text-capitalize card-title">{{item.name |truncatechars:30}}</p>
