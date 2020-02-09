@@ -25,19 +25,22 @@ def cart(request):
     
 @login_required
 def add_to_cart(request):
-    prin(request.POST['item_id'])
-    item = Item.objects.get(pk=request.POST['item_id'])
-    cart = Cart.objects.filter(
-    user=request.user, item=item, is_ordered=False).first()
-    if cart:
-        cart.qty += 1
-        cart.save()
-        messages.success(request, 'item added to cart!')
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    else:
-        cart = Cart(user=request.user, item=item)
-        cart.save()
-        messages.success(request, 'item added to cart!')
+    if request.method == 'POST':
+        print(request.POST['item_id'])
+        item_id = request.POST['item_id']
+        item = Item.objects.get(pk=item_id)
+        cart = Cart.objects.filter(
+        user=request.user, item=item, is_ordered=False).first()
+        if cart:
+            cart.qty += 1
+            cart.save()
+            messages.success(request, 'item added to cart!')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            cart = Cart(user=request.user, item=item)
+            cart.save()
+            messages.success(request, 'item added to cart!')
+    
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
