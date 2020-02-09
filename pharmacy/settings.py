@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import dj_database_url
+
 # from decouple import config
 # import dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -23,10 +25,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECRET_KEY = config('SECRET_KEY')
-SECRET_KEY = 'q^waorq=k404h@nm+lz0=4bwmno&q-sb5e!do)w19bg6(t%=*q'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
@@ -88,15 +90,9 @@ WSGI_APPLICATION = 'pharmacy.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-ATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd2kv18unvq51ov',
-        'USER': 'rpudzacrfwikeh',
-        'PASSWORD': 'db97aa29653fc880462818a5a7f91793d20528ca7c231caef953dfb4e54ba298',
-        'HOST': 'ec2-3-213-192-58.compute-1.amazonaws.com',
-        'PORT': '5432',
-    }
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
 }
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
