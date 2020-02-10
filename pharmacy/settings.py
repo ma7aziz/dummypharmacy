@@ -35,7 +35,7 @@ DATABASES = {
 # SECURITY WARNING: don't run with debug turned on in production!
 
 ALLOWED_HOSTS = ['*']
-DEBUG = False
+DEBUG = True
 
 if DEBUG == False :
     DATABASES = {
