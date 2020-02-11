@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 
 
-from cart.models import Order, Customr_details
+from cart.models import Order, Customr_details, Cart, Order_item
 from items.models import Item,CATEGORY_CHOICES
 
 
@@ -14,11 +14,29 @@ from items.models import Item,CATEGORY_CHOICES
 
 
 def index(request):
-    
     items = Item.objects.all().order_by('-price')
     recent = Item.objects.all().order_by('-created')[:5]
     top_selling = Item.objects.all().order_by('-times_sold')[:5]
-
+    cart_session = request.session.get('cart')
+    if request.user.is_authenticated:
+        if cart_session:
+            cart = Cart.objects.get(pk=cart_session)
+            user = User.objects.get(pk= request.user.id)
+            cart.user = user
+            cart.save()
+            user_carts = Cart.objects.all().filter(user = user, is_ordered=False)
+            
+            # if len(user_carts) == 2:
+            #     for item in user_carts[0].item.all():
+            # #         qty = item.qty
+            #         print(item, item.qty, item.shopping_cart, )
+            #         # item.shopping_cart = Cart.objects.get(pk = user_carts[1].id)
+            #         cart = Cart.objects.get(pk=user_carts[1].id)
+            #         cart.item.add(item)
+            #     cart.save()
+            #     user_carts[0].delete()
+            
+                    
     context = {
         'items': items,
         'recent': recent,
