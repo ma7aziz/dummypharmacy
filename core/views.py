@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
-
+from .forms import SignUpForm
 
 from cart.models import Order, Customr_details, Cart, Order_item
 from items.models import Item,CATEGORY_CHOICES
@@ -26,15 +26,12 @@ def index(request):
             cart.save()
             user_carts = Cart.objects.all().filter(user = user, is_ordered=False)
             
-            # if len(user_carts) == 2:
-            #     for item in user_carts[0].item.all():
-            # #         qty = item.qty
-            #         print(item, item.qty, item.shopping_cart, )
-            #         # item.shopping_cart = Cart.objects.get(pk = user_carts[1].id)
-            #         cart = Cart.objects.get(pk=user_carts[1].id)
-            #         cart.item.add(item)
-            #     cart.save()
-            #     user_carts[0].delete()
+            if len(user_carts) == 2:
+                for item in user_carts[0].item.all():
+                  item.shopping_cart.id = user_carts[1].id
+                  item.save()
+                  user_carts[1].save()
+                user_carts[0].delete()
             
                     
     context = {
@@ -48,7 +45,7 @@ def index(request):
 
 def signup(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get("username")
@@ -59,7 +56,7 @@ def signup(request):
             return redirect('index')
 
     else:
-        form = UserCreationForm()
+        form = SignUpForm()
     return render(request, "registration/signup.html", {"form": form})
 
 

@@ -35,7 +35,7 @@ DATABASES = {
 # SECURITY WARNING: don't run with debug turned on in production!
 
 ALLOWED_HOSTS = ['*']
-DEBUG = True
+DEBUG = False
 
 if DEBUG == False :
     DATABASES = {
@@ -65,9 +65,11 @@ INSTALLED_APPS = [
     'items',
     'cart',
     'core',
+    'crispy_forms',
     
     
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 SITE_ID = 1
 
@@ -97,6 +99,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.add_variable_to_context',
                 
             ],
         },

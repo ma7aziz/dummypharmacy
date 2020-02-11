@@ -3,9 +3,12 @@
 <div class="container">
 {% if cart %}
 <a href="{% url 'check_out' %}" class="btn btn-success mt-2">Check out</a>
-cart price : {{total_price}}
+<br>
+cart price : {{cart.cart_price}} <br>
+Items count : {{cart.cart_count}}
 <di class="card-group">
-{% for cart in cart%}
+
+
 {% for item in cart.item.all %}
 
 <div class="card">
@@ -33,7 +36,7 @@ Quantity: {{item.qty}}
 </div>
 <br>
 
-{%endfor%}
+
 {%endfor%}
 
 

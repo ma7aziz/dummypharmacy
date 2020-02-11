@@ -1,8 +1,13 @@
-from django.forms import ModelForm
-from . import models
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 
-class ProfileForm(ModelForm):
+class SignUpForm(UserCreationForm):
+    first_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
+    email = forms.EmailField(max_length=254, help_text='Required')
+
     class Meta:
-        model = models.Profile
-        fields = ['phone', 'birthdate', 'address1', 'address2', 'address3']
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', )

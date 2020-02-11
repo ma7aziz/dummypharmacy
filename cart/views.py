@@ -17,13 +17,13 @@ def cart(request):
     session_cart = request.session.get('cart')
     if request.user.is_authenticated:
         user = request.user.id
-        cart = list(Cart.objects.filter(user=user, is_ordered=False))
-
+        cart = Cart.objects.all().filter(user=user, is_ordered=False).first()
     else:
-        cart = list(Cart.objects.filter(pk=session_cart))
+        cart = Cart.objects.all().filter(pk=session_cart).first()
     context = {
         'cart': cart,
     }
+    
 
     return render(request, 'cart.html', context)
 
@@ -122,8 +122,6 @@ def check_out(request):
         customer = Customr_details.objects.filter(user=user).first()
         context = {
             'cart': cart,
-
-            # 'count': cart.count(),
             'customer': customer
         }
     return render(request, 'checkout.html', context)
@@ -131,7 +129,6 @@ def check_out(request):
 
 def customer_details(request):
     if request.method == 'POST':
-
         phone = request.POST['phone']
         address = request.POST['address']
         customer = Customr_details.objects.filter(user=request.user)

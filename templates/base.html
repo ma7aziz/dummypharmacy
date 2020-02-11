@@ -21,7 +21,7 @@
             <a class="navbar-brand text-light " href="{% url 'index' %}">Online Pharmacy</a>
          
                 <ul class="nav mr-auto">
-                    <li class="nav-item font-italic"><a class="nav-link" href="{% url 'cart' %}">Cart</a></li>
+                    <li class="nav-item font-italic border border-light"><a class="nav-link" href="{% url 'cart' %}">Cart <span class="bg-primary text-light p-1 rounded">{{count}}</span></a></li>
                     {% if user.is_authenticated %}
                     <li class="nav-item font-italic"><a class="nav-link" href="{% url 'logout'%}">Logout</a></li>
                         {% if user.is_superuser%}

@@ -21,7 +21,10 @@
         {% if customer %}
         <h4>please confirm your order:</h4>
         Shipping Address : {{customer.address}} <br>
-        Phone Number: {{customer.phone}}
+        Phone Number: {{customer.phone}} <br>
+        {% if user.email%}Email: {{user.email}}
+    
+        {% endif%}
         <!-- Get email -->
         <form action="{% url 'check_out' %}" method="POST">
             {% csrf_token %}

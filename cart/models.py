@@ -13,6 +13,8 @@ class Cart(models.Model):
     is_ordered = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     
+    # class Meta:
+    #     unique_together = ('user', 'is_ordered',)
     def __str__(self):
         return str(self.user.username)
 
@@ -20,8 +22,12 @@ class Cart(models.Model):
         prices = []
         for c in self.item.all():
             prices.append(c.total_price())
-
         return sum(prices)
+
+    def cart_count(self):
+        return self.item.all().count()
+
+
    
 
 class Order_item(models.Model):
@@ -33,8 +39,8 @@ class Order_item(models.Model):
     def total_price(self):
         return self.qty * self.item.price
     
-    # def __str__(self):
-    #     return (f'{self.item.name} for {self.shopping_cart}')
+    def __str__(self):
+        return self.item.name
 
 
 class Customr_details(models.Model):
