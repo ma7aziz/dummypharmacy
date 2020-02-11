@@ -6,8 +6,8 @@
 <div class="row align-items-center">
     <div class="col-sm  border border-secondary p-2  ">
         <h5>Order Summary:</h5>
-        {% for item in items %}
-        <ul>item: <strong>{{ item.item }}</strong></ul>
+        {% for item in cart.item.all%}
+        <ul>item: <strong>{{ item.item.name }}</strong></ul>
         <ul>Quntity: <strong>{{item.qty}} </strong></ul>
 
         <hr>
@@ -15,7 +15,7 @@
         {% endfor %}
         <div class="container"> 
        <p class="text-primary"> total items: {{count}}</p> 
-       <p> Total price: {{total_price}} </p> </div>
+       <p> Total price: {{cart.cart_price}} </p> </div>
     </div>
     <div class="col-sm border ml-2 p-3 ">
         {% if customer %}

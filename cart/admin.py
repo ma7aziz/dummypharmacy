@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Cart, Order , Customr_details
+from .models import Cart, Order , Order_item,Customr_details
 
 # Register your models here.
 class CartAdmin(admin.ModelAdmin):
-    list_display= ('item', 'user', 'is_ordered')
-    list_display_links= ('item',)
+    list_display= ( 'user', 'is_ordered')
+    list_display_links= ('user',)
     list_editable = ('is_ordered',)
     list_filter = ('user_id',)
 
@@ -18,3 +18,4 @@ class OrderAdmin(admin.ModelAdmin):
 
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Customr_details)
+admin.site.register(Order_item)
