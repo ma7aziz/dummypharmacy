@@ -35,6 +35,7 @@ def add_to_cart(request):
     if request.user.is_authenticated:
         cart = Cart.objects.get_or_create(
             user=request.user, is_ordered=False)[0]
+        print(cart)
         cart_item = Order_item.objects.all().filter(
             item=item, shopping_cart=cart.id).first()
         if cart_item:
@@ -44,7 +45,7 @@ def add_to_cart(request):
         else:
             cart_item = Order_item(shopping_cart=cart, item=item)
             cart_item.save()
-            cart.item.add(cart_item)
+            cart.order_item_set.add(cart_item)
             cart.save()
             messages.success(request, 'Added to cart')
             print(cart.id)
@@ -60,7 +61,7 @@ def add_to_cart(request):
             else:
                 cart_item = Order_item(shopping_cart=cart, item=item)
                 cart_item.save()
-                cart.item.add(cart_item)
+                cart.order_item_set.add(cart_item)
                 cart.save()
                 messages.success(request, 'Added to cart')
                 print(cart.id)
@@ -69,7 +70,7 @@ def add_to_cart(request):
             cart.save()
             cart_item = Order_item(shopping_cart=cart, item=item)
             cart_item.save()
-            cart.item.add(cart_item)
+            cart.order_item_set.add(cart_item)
             messages.success(request, 'Added to cart')
             request.session['cart'] = cart.id
 
@@ -143,12 +144,11 @@ def customer_details(request):
         pass
         # Todo
 
- # real time notification on admin pannel
- # export orders to csv files
- # sales informations (items, orders)
- # add real time updates to admin views
- # change order id generator
+def clear_cart(request, cart_id):
+    cart = Cart.objects.get(pk=cart_id)
+    cart.delete()
+    messages.success(request,'Your cart has been cleared')
+    cart_session = request.session.get('cart')
+    del cart_session
 
-#  sales informations
-# orders count , total sales , items sales
-# create cart for anonymus user
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

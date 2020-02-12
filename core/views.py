@@ -25,13 +25,13 @@ def index(request):
             cart.user = user
             cart.save()
             user_carts = Cart.objects.all().filter(user = user, is_ordered=False)
-            
-            if len(user_carts) == 2:
-                for item in user_carts[0].item.all():
-                  item.shopping_cart.id = user_carts[1].id
-                  item.save()
-                  user_carts[1].save()
-                user_carts[0].delete()
+            del request.session['cart']
+            # if len(user_carts) == 2:
+            #     for item in user_carts[0].order_item_set.all():
+            #       item.shopping_cart.id = user_carts[1].id
+            #       item.save()
+            #       user_carts[1].save()
+            #     user_carts[0].delete()
             
                     
     context = {

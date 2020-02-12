@@ -13,7 +13,7 @@ def add_variable_to_context(request):
     else:
         cart_count = 0
     return {
-        
+        'test':'test',
         'count':cart_count
         }
     

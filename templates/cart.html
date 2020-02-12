@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
+
 {% if cart %}
+<div>
 <a href="{% url 'check_out' %}" class="btn btn-success mt-2">Check out</a>
 <br>
 cart price : {{cart.cart_price}} <br>
@@ -9,9 +11,9 @@ Items count : {{cart.cart_count}}
 <di class="card-group">
 
 
-{% for item in cart.item.all %}
+{% for item in cart.order_item_set.all %}
 
-<div class="card">
+<div class="card col-4 ml-3">
 <h6 class="text-primary">{{item.item.name}}</h6>
 Quantity: {{item.qty}}
 <p>Price: {{item.total_price}}</p>
@@ -38,11 +40,15 @@ Quantity: {{item.qty}}
 
 
 {%endfor%}
-
-
+</div>
+<!-- clear cart -->
+<br>
+<div class="">
+<a class="btn btn-danger " href="{%url 'clear_cart' cart.id %}">clear cart</a>
+</div>
 {%else%}
 Nothing to show here.. Add some items! <br>
-<a href="{%url 'index' %}">Add items </a>
+<a class="btn btn-success mt-3" href="{%url 'index' %}">Add items </a>
 </di>
 {%endif%}
 </div>

@@ -8,7 +8,6 @@ from .models import Item
 
 def item_details(request, item_id):
     item = Item.objects.get(pk=item_id)
-    print(request.session.session_key)
 
     return render(request, 'details.html', {'item':item})
 

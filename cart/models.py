@@ -9,7 +9,7 @@ from items.models import Item
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
-    item = models.ManyToManyField('Order_item')
+    item = models.ForeignKey('Order_item', on_delete=models.SET_NULL,null=True)
     is_ordered = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     
@@ -20,12 +20,12 @@ class Cart(models.Model):
 
     def cart_price(self):
         prices = []
-        for c in self.item.all():
+        for c in self.order_item_set.all():
             prices.append(c.total_price())
         return sum(prices)
 
     def cart_count(self):
-        return self.item.all().count()
+        return self.order_item_set.all().count()
 
 
    
